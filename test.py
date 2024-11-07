@@ -57,15 +57,18 @@ for element in elements_list:
         if "O" not in formule_general:
             formule_general += "O"
 print(formule_general)
-Function = ""
-Nom = ""
+FloatingPointErrorunction = ""
+nom = ""
 if formule_general == "HMO":
-    Function = "Sel"
+    function = "Sel"
     Nom = "Hydroxyde de" + metal
-    print(Function)
-    print(Nom)
+    
 elif formule_general == "HX":
-    Function = "Acide"
+    function = "Acide"
     Nom = non_metal +"ure" + " " + metal
-    print(Function)
-    print(Nom)
+    
+elif formule_general == "MO":
+    function = "Oxyde"
+    nom = "Oxyde de " + metal
+print(function)
+print(nom)

@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import re
-molecule_formula = input("Formula: ")
+
+molecule_formula = input("Formule Molecule: ")
 pattern = r'([A-Z][a-z]?)(\d*)'
 matches = re.findall(pattern, molecule_formula)
 elements_list = {}
@@ -32,6 +33,21 @@ metals = [
 non_metals = [
     "F", "Cl", "Br", "I", "At", "He", "Ne", "Ar", "Kr", "Xe", "Rn", "C", "N", "P", "S", "Se", "Te", "Po"
 ]
+
+prefixes={
+    "1" : "Mon",
+    "2" : "Di",
+    "3" : "Tri",
+    "4" : "Tetr",
+    "5" : "Pent",
+    "6" : "Hex",
+    "7" : "Hept",
+    "8" : "Oct",
+
+}
+
+
+
 formule_general = ""
 for element, n_atoms in matches:
     if n_atoms:
@@ -57,18 +73,35 @@ for element in elements_list:
         if "O" not in formule_general:
             formule_general += "O"
 print(formule_general)
-FloatingPointErrorunction = ""
+function = ""
 nom = ""
+vowels = ["a", "e", "i", "o" ]
 if formule_general == "HMO":
     function = "Sel"
     Nom = "Hydroxyde de" + metal
     
-elif formule_general == "HX":
+elif formule_general == "HX" or formule_general == "XH":
     function = "Acide"
-    Nom = non_metal +"ure" + " " + metal
+    if non_metal[-1] in vowels:
+        non_metal = non_metal - non_metal[-1] 
+    nom = non_metal +"ure" + " " + "d'hydrogene"
     
 elif formule_general == "MO":
     function = "Oxyde"
     nom = "Oxyde de " + metal
+elif formule_general == "MX" or formule_general == "XM":
+    function = "Sel Binaire"
+    if non_metal[-1] in vowels:
+        non_metal = non_metal - non_metal[-1] 
+    nom = non_metal +"ure" + " de" + metal
+elif formule_general == "XO" or formule_general == "OX": 
+    function = "Oxy non-metalique"
+    prefixe = prefixes[str(n_atoms)]
+    nom =   prefixe + "oxyde" + f" de {non_metal}"
+
+
+    
+else:    print("Error")
+
 print(function)
 print(nom)

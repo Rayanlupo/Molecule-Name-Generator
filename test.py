@@ -21,9 +21,9 @@ elements_dict = {
     "Tm": "Thulium", "Yb": "Ytterbium", "Lu": "Lutetium", "Ac": "Actinium", "Th": "Thorium", "Pa": "Protactinium",
     "U": "Uranium", "Np": "Neptunium", "Pu": "Plutonium", "Am": "Americium", "Cm": "Curium", "Bk": "Berkelium",
     "Cf": "Californium", "Es": "Einsteinium", "Fm": "Fermium", "Md": "Mendelevium", "No": "Nobelium", "Lr": "Lawrencium",
-    "F": "Fluorine", "Cl": "Chlorine", "Br": "Bromine", "I": "Iodine", "At": "Astatine", "He": "Helium", "Ne": "Neon",
+    "F": "Fluorine", "Cl": "Chlore", "Br": "Bromine", "I": "Iodine", "At": "Astatine", "He": "Helium", "Ne": "Neon",
     "Ar": "Argon", "Kr": "Krypton", "Xe": "Xenon", "Rn": "Radon", "C": "Carbon", "N": "Nitrogen", "P": "Phosphorus",
-    "S": "Sulfur", "Se": "Selenium", "Te": "Tellurium", "Po": "Polonium"
+    "S": "Sulfure", "Se": "Selenium", "Te": "Tellurium", "Po": "Polonium"
 }
 metals = [
     "Li", "Na", "K", "Rb", "Cs", "Fr", "Be", "Mg", "Ca", "Sr", "Ba", "Ra", "Sc", "Ti", "V", "Cr", "Mn", 
@@ -35,7 +35,37 @@ metals = [
 non_metals = [
     "F", "Cl", "Br", "I", "At", "He", "Ne", "Ar", "Kr", "Xe", "Rn", "C", "N", "P", "S", "Se", "Te", "Po"
 ]
+liste_d_anions_polyatomiques={
+    "H2PO4" : "DiHydrogenoPhosphate",
+    "H2PO3" : "DiHydrogenoPhosphite",
+    "HCO3" : "Hidrogenocarbonate",
+    "HSO3" : "Hydrogenosulfite",
+    "HSO4" : "Hydrogenosulfate",
+    "CN" : "Cyanure",
+    "OH" : "Hydroxyde",
+    "NO3" : "Nitrate",
+    "NO2" : "Nitrite",
+    "CN" : "Cyanure",
+    "MnO4" : "Permanganate",
+    "SCN" : "Thiocyanate",
+    "ClO" : "Hypochlorite",
+    "ClO2" : "Hypochlorate",
+    "ClO3" : "Chlorate",
+    "ClO4" : "Perchlorate",
+    "HPO4" : "Hydrogenophosphate",
+    "HPO3" : "Hydrogenophosphite",
+    "CO3" : "Carbonate",
+    "SO4" : "Sulfate",
+    "SO3" : "Sulfite",
+    "CrO4" : "Chromate",
+    "Cr2O7" : "Dichromate",
+    "S2O3" : "Thiosulfate",
+    "SiO3" : "Silicate",
+    "BO3" : "Borate",
+    "PO3" : "Phosphite",
+    "PO4" : "Phosphate",
 
+    }
 prefixes={
     "1" : "Mon",
     "2" : "Di",
@@ -45,7 +75,6 @@ prefixes={
     "6" : "Hex",
     "7" : "Hept",
     "8" : "Oct",
-
 }
 
 
@@ -63,29 +92,44 @@ for element in elements_list:
     if element == "H":
         if "H" not in formule_general:
             formule_general += "H"
+            formule_H = element + str(elements_list[element])
     if element in metals:
         metal = elements_dict[element]
+        formule_metal = element + str(elements_list[element])
         if "M" not in formule_general:
             formule_general += "M"
+
     if element in non_metals:
         if "X" not in formule_general:
             formule_general += "X"
+            formule_non_metal = element + str(elements_list[element])
             non_metal = elements_dict[element]
     if element == "O":
+        
         if "O" not in formule_general:
             formule_general += "O"
+            formule_oxygen = element + str(elements_list[element])
+    
+
 print(formule_general)
 function = ""
 nom = ""
 vowels = ["a", "e", "i", "o" ]
+if formule_general == "HXO":
+    function = "Acide"
+    i = molecule_formula.replace("H", "")
+    if i in liste_d_anions_polyatomiques:
+        nom = liste_d_anions_polyatomiques[i] + " d'hydrogene"
+    
 if formule_general == "HMO":
     function = "Sel"
-    Nom = "Hydroxyde de" + metal
+    nom = "Hydroxyde de" + metal
     
 elif formule_general == "HX" or formule_general == "XH":
     function = "Acide"
     if non_metal[-1] in vowels:
-        non_metal = non_metal - non_metal[-1] 
+        non_metal = non_metal.replace(non_metal[-1], "") 
+    print(non_metal)
     nom = non_metal +"ure" + " " + "d'hydrogene"
     
 elif formule_general == "MO":
@@ -96,8 +140,13 @@ elif formule_general == "MX" or formule_general == "XM":
     if non_metal[-1] in vowels:
         non_metal = non_metal - non_metal[-1] 
     nom = non_metal +"ure" + " de" + metal
-elif formule_general == "XO" or formule_general == "OX": 
-    function = "Oxy non-metalique"
+elif formule_general == "MXO":
+    function = "Sel Ternaire"
+    removed_metal = molecule_formula.replace(metal, "")
+    nom = liste_d_anions_polyatomiques[removed_metal] + f" de {metal}"
+elif formule_general == "XO" or formule_general == "OX":
+ 
+    function = "Oxyde non-metalique"
     prefixe = prefixes[str(n_atoms)]
     nom =   prefixe + "oxyde" + f" de {non_metal}"
 

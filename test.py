@@ -94,6 +94,7 @@ for element in elements_list:
             formule_general += "H"
             formule_H = element + str(elements_list[element])
     if element in metals:
+        metal_formula = element
         metal = elements_dict[element]
         formule_metal = element + str(elements_list[element])
         if "M" not in formule_general:
@@ -122,7 +123,7 @@ if formule_general == "HXO":
         nom = liste_d_anions_polyatomiques[i] + " d'hydrogene"
     
 if formule_general == "HMO":
-    function = "Sel"
+    function = "Sel Binaire "
     nom = "Hydroxyde de" + metal
     
 elif formule_general == "HX" or formule_general == "XH":
@@ -142,14 +143,18 @@ elif formule_general == "MX" or formule_general == "XM":
     nom = non_metal +"ure" + " de" + metal
 elif formule_general == "MXO":
     function = "Sel Ternaire"
-    removed_metal = molecule_formula.replace(metal, "")
+    print(metal_formula)
+    removed_metal = molecule_formula.replace(metal_formula, "")
+    print(removed_metal)
     nom = liste_d_anions_polyatomiques[removed_metal] + f" de {metal}"
 elif formule_general == "XO" or formule_general == "OX":
  
     function = "Oxyde non-metalique"
     prefixe = prefixes[str(n_atoms)]
     nom =   prefixe + "oxyde" + f" de {non_metal}"
-
+elif formule_general == "MOH":
+    funcion = "Hydroxide"
+    nom = "Hydroxyde de " + metal
 
     
 else:    print("Error")

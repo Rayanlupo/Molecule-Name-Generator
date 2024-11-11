@@ -3,10 +3,7 @@ import re
 
 print("hello rayan")
 
-molecule_formula = input("Formule Molecule: ")
-pattern = r'([A-Z][a-z]?)(\d*)'
-matches = re.findall(pattern, molecule_formula)
-elements_list = {}
+
 elements_dict = {
     "Li": "Lithium", "Na": "Sodium", "K": "Potassium", "Rb": "Rubidium", "Cs": "Cesium", "Fr": "Francium",
     "Be": "Beryllium", "Mg": "Magnesium", "Ca": "Calcium", "Sr": "Strontium", "Ba": "Barium", "Ra": "Radium",
@@ -79,85 +76,96 @@ prefixes={
 
 
 
-formule_general = ""
-for element, n_atoms in matches:
+molecule_formula = input("Formule Molecule: ")
+def divide_formula(molecule_formula):
+    pattern = r'([A-Z][a-z]?)(\d*)'
+    matches = re.findall(pattern, molecule_formula)
+    elements_list = {}
+    for element, n_atoms in matches:
     if n_atoms:
         n_atoms = int(n_atoms)
     else: 
         n_atoms = 1
-    elements_list[element] = n_atoms
-print(elements_list)
-metal = "";
-for element in elements_list:
-    if element == "H":
-        if "H" not in formule_general:
-            formule_general += "H"
-            formule_H = element + str(elements_list[element])
-    if element in metals:
-        metal_formula = element
-        metal = elements_dict[element]
-        formule_metal = element + str(elements_list[element])
-        if "M" not in formule_general:
-            formule_general += "M"
+    elements_list[element] = n_atoms 
+    return elements_list
+elements_list = divide_formula(molecule_formula)
 
-    if element in non_metals:
-        if "X" not in formule_general:
-            formule_general += "X"
-            formule_non_metal = element + str(elements_list[element])
-            non_metal = elements_dict[element]
-    if element == "O":
+def get_formule_general(elements_list):
+
+    formule_general = ""
+    metal = "";
+    for element in elements_list:
+        if element == "H":
+            if "H" not in formule_general:
+                formule_general += "H"
+                formule_H = element + str(elements_list[element])
+        if element in metals:
+            metal_formula = element
+            metal = elements_dict[element]
+            formule_metal = element + str(elements_list[element])
+            if "M" not in formule_general:
+                formule_general += "M"
+
+        if element in non_metals:
+            if "X" not in formule_general:
+                formule_general += "X"
+                formule_non_metal = element + str(elements_list[element])
+                non_metal = elements_dict[element]
+        if element == "O":
+            
+            if "O" not in formule_general:
+                formule_general += "O"
+                formule_oxygen = element + str(elements_list[element])
         
-        if "O" not in formule_general:
-            formule_general += "O"
-            formule_oxygen = element + str(elements_list[element])
-    
 
-print(formule_general)
+formule_feneral = get_formule_general(elements_list)
 function = ""
 nom = ""
-vowels = ["a", "e", "i", "o" ]
-if formule_general == "HXO":
-    function = "Acide"
-    i = molecule_formula.replace("H", "")
-    if i in liste_d_anions_polyatomiques:
-        nom = liste_d_anions_polyatomiques[i] + " d'hydrogene"
+def get_nom_et_function(formule_general):
+    vowels = ["a", "e", "i", "o" ]
+    if formule_general == "HXO":
+        function = "Acide"
+        i = molecule_formula.replace("H", "")
+        if i in liste_d_anions_polyatomiques:
+            nom = liste_d_anions_polyatomiques[i] + " d'hydrogene"
+        
+    if formule_general == "HMO":
+        function = "Sel Binaire "
+        nom = "Hydroxyde de" + metal
+        
+    elif formule_general == "HX" or formule_general == "XH":
+        function = "Acide"
+        if non_metal[-1] in vowels:
+            non_metal = non_metal.replace(non_metal[-1], "") 
+        print(non_metal)
+        nom = non_metal +"ure" + " " + "d'hydrogene"
+        
+    elif formule_general == "MO":
+        function = "Oxyde"
+        nom = "Oxyde de " + metal
+    elif formule_general == "MX" or formule_general == "XM":
+        function = "Sel Binaire"
+        if non_metal[-1] in vowels:
+            non_metal = non_metal - non_metal[-1] 
+        nom = non_metal +"ure" + " de" + metal
+    elif formule_general == "MXO":
+        function = "Sel Ternaire"
+        print(metal_formula)
+        removed_metal = molecule_formula.replace(metal_formula, "")
+        print(removed_metal)
+        nom = liste_d_anions_polyatomiques[removed_metal] + f" de {metal}"
+    elif formule_general == "XO" or formule_general == "OX":
     
-if formule_general == "HMO":
-    function = "Sel Binaire "
-    nom = "Hydroxyde de" + metal
-    
-elif formule_general == "HX" or formule_general == "XH":
-    function = "Acide"
-    if non_metal[-1] in vowels:
-        non_metal = non_metal.replace(non_metal[-1], "") 
-    print(non_metal)
-    nom = non_metal +"ure" + " " + "d'hydrogene"
-    
-elif formule_general == "MO":
-    function = "Oxyde"
-    nom = "Oxyde de " + metal
-elif formule_general == "MX" or formule_general == "XM":
-    function = "Sel Binaire"
-    if non_metal[-1] in vowels:
-        non_metal = non_metal - non_metal[-1] 
-    nom = non_metal +"ure" + " de" + metal
-elif formule_general == "MXO":
-    function = "Sel Ternaire"
-    print(metal_formula)
-    removed_metal = molecule_formula.replace(metal_formula, "")
-    print(removed_metal)
-    nom = liste_d_anions_polyatomiques[removed_metal] + f" de {metal}"
-elif formule_general == "XO" or formule_general == "OX":
- 
-    function = "Oxyde non-metalique"
-    prefixe = prefixes[str(n_atoms)]
-    nom =   prefixe + "oxyde" + f" de {non_metal}"
-elif formule_general == "MOH":
-    funcion = "Hydroxide"
-    nom = "Hydroxyde de " + metal
+        function = "Oxyde non-metalique"
+        prefixe = prefixes[str(n_atoms)]
+        nom =   prefixe + "oxyde" + f" de {non_metal}"
+    elif formule_general == "MOH":
+        funcion = "Hydroxide"
+        nom = "Hydroxyde de " + metal
+
+        
+    else:    print("Error")
 
     
-else:    print("Error")
-
-print(function)
-print(nom)
+    return nom, function
+nom, function = get_nom_et_function(formule_feneral, elements_list)

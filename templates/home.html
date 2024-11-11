@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta charset="UTF-8">
+    <title>Molecule Naming App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="https://cloud-50i1ntijt-hack-club-bot.vercel.app/0image.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="title">
+    <h1>Molecule Naming App</h1>
+    </div>
+    
+    <form method="post">
+        <label for="formula">Enter Molecular Formula:</label>
+        <input type="text" id="formula" name="formula" required>
+        <button type="submit">Submit</button>
+    </form>
+    
+
+    {% if name and function %}
+    <div class="results">
+        <h2>Results:</h2>
+        <p><strong>Formula:</strong> {{ formula }}</p>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Function:</strong> {{ function }}</p>
+    </div>
+    {% elif error %}
+        <h2>Error</h2>
+        <p>{{error_message}}</p>
+    {% endif %}
+</body>
+</html>

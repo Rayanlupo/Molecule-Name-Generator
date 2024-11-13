@@ -15,29 +15,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="title">
+    <div class="title">
     <h1>Molecule Naming App</h1>
-</div>
+    </div>
 
-<div class="form-container">
-    {% if error %}
-        <div id="error-message">{{error_message}}</div>
-    {% endif %}
-    <form id="myForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
+    <form method="post">
+        <label for="formula">Enter Molecular Formula:</label>
+        <input type="text" id="formula" name="formula" required>
         <button type="submit">Submit</button>
     </form>
-</div>
 
-{% if name and function %}
-<div class="results">
-    <h2>Results:</h2>
-    <p><strong>Formula:</strong> {{ formula }}</p>
-    <p><strong>Name:</strong> {{ name }}</p>
-    <p><strong>Function:</strong> {{ function }}</p>
-</div>
-{% endif %}
+
+    {% if name and function %}
+    <div class="results">
+        <h2>Results:</h2>
+        <p><strong>Formula:</strong> {{ formula }}</p>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Function:</strong> {{ function }}</p>
+    </div>
+    {% elif error %}
+        <h2>Error</h2>
+        <p>{{error_message}}</p>
+    {% endif %}
     <!-- From Uiverse.io by Zameerahmad01   Thanks :) -->
 <ul class="example-2">
   
@@ -87,6 +86,5 @@
   </li>
   
 </ul>
-
 </body>
 </html>

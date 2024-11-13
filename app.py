@@ -165,6 +165,8 @@ def get_molecule_name(molecule_formula):
         error = False
     else:
         error =True
+        nom = None
+        
         error_message = "No compound Found"
         return error, error_message, nom, function
     
@@ -188,6 +190,7 @@ def index():
             error = True
             name = None
             function = None
+            
         
     return render_template('home.html', name=name, function=function, error=error, error_message=error_message, formula=formula)
 

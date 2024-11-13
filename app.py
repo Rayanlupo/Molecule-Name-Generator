@@ -152,8 +152,12 @@ def get_molecule_name(molecule_formula):
     elif formule_general == "XO" or formule_general == "OX":
 
         function = "Oxyde non-metalique"
-        prefixe = prefixes[str(n_atoms)]
-        nom =   prefixe + "oxyde" + f" de {non_metal}"
+        prefixe_o = prefixes[str(n_atoms)]
+        for elem in elements_list:
+            if elements_list[elem] == non_metal:
+                x_form = elem
+        prefix_x = prefixes[str(elements_list[elem])]
+        nom =   prefixe_o + "oxyde" + f" de {prefix_x.lower()}{non_metal.lower()}"
     elif formule_general == "MOH":
         function = "Hydroxide"
         nom = "Hydroxyde de " + metal

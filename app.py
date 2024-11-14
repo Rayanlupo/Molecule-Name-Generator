@@ -118,37 +118,53 @@ def get_molecule_name(molecule_formula):
     function = ""
     nom = ""
     vowels = ["a", "e", "i", "o" ]
+     
+
     if formule_general == "HXO":
         function = "Acide"
         i = molecule_formula.replace("H", "")
         if i in liste_d_anions_polyatomiques:
             nom = liste_d_anions_polyatomiques[i] + " d'hydrogene"
+            if molecule_formula in liste_d_anions_polyatomiques:
+                nom = liste_d_anions_polyatomiques[molecule_formula]
 
-    if formule_general == "HMO":
+    elif formule_general == "HMO":
         function = "Sel Binaire "
         nom = "Hydroxyde de" + metal
+        if molecule_formula in liste_d_anions_polyatomiques:
+            nom = liste_d_anions_polyatomiques[molecule_formula]
 
     elif formule_general == "HX" or formule_general == "XH":
         function = "Acide"
         if non_metal[-1] in vowels:
             non_metal = non_metal.replace(non_metal[-1], "") 
         print(non_metal)
-        nom = non_metal +"ure" + " " + "d'hydrogene"
+        if molecule_formula in liste_d_anions_polyatomiques:
+            nom = liste_d_anions_polyatomiques[molecule_formula]
+        else: 
+            nom = non_metal +"ure" + " " + "d'hydrogene"
 
     elif formule_general == "MO":
         function = "Oxyde"
-        nom = "Oxyde de " + metal
+        if molecule_formula in liste_d_anions_polyatomiques:
+            nom = liste_d_anions_polyatomiques[molecule_formula]
+        else: 
+            nom = "Oxyde de " + metal
     elif formule_general == "MX" or formule_general == "XM":
         function = "Sel Binaire"
         if non_metal[-1] in vowels:
             non_metal = non_metal - non_metal[-1] 
         nom = non_metal +"ure" + " de" + metal
+        if molecule_formula in liste_d_anions_polyatomiques:
+            nom = liste_d_anions_polyatomiques[molecule_formula]
     elif formule_general == "MXO":
         function = "Sel Ternaire"
         print(metal_formula)
         removed_metal = molecule_formula.replace(metal_formula, "")
         print(removed_metal)
         nom = liste_d_anions_polyatomiques[removed_metal] + f" de {metal}"
+        if molecule_formula in liste_d_anions_polyatomiques:
+            nom = liste_d_anions_polyatomiques[molecule_formula]
     elif formule_general == "XO" or formule_general == "OX":
 
         function = "Oxyde non-metalique"
@@ -158,6 +174,8 @@ def get_molecule_name(molecule_formula):
                 x_form = elem
         prefix_x = prefixes[str(elements_list[elem])]
         nom =   prefixe_o + "oxyde" + f" de {prefix_x.lower()}{non_metal.lower()}"
+        if molecule_formula in liste_d_anions_polyatomiques:
+            nom = liste_d_anions_polyatomiques[molecule_formula]
     elif formule_general == "MOH":
         function = "Hydroxide"
         nom = "Hydroxyde de " + metal
@@ -188,7 +206,7 @@ def index():
             error = False
         else:
             error = True
-            name = None
+            name = ""
             function = None
             
         

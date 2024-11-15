@@ -1,12 +1,12 @@
 from flask import Flask, request, render_template
 import re
-from babel import configure
-configure(app)
+
 
 app = Flask(__name__)
 def get_molecule_name(molecule_formula):
     error = False
     error_message = ""
+    molecule_formula = str(molecule_formula)
     pattern = r'([A-Z][a-z]?)(\d*)'
     matches = re.findall(pattern, molecule_formula)
     elements_list = {}
@@ -135,6 +135,7 @@ def get_molecule_name(molecule_formula):
         nom = "Hydroxyde de" + metal
         if molecule_formula in liste_d_anions_polyatomiques:
             nom = liste_d_anions_polyatomiques[molecule_formula]
+        
 
     elif formule_general == "HX" or formule_general == "XH":
         function = "Acide"
@@ -192,7 +193,7 @@ def get_molecule_name(molecule_formula):
     
 
     return nom, function, error, error_message
-@app.route('/<language>', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     error = False
     error_message = ""

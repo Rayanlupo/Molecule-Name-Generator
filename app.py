@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template
 import re
+from babel import configure
+configure(app)
 
 app = Flask(__name__)
 def get_molecule_name(molecule_formula):
@@ -190,7 +192,7 @@ def get_molecule_name(molecule_formula):
     
 
     return nom, function, error, error_message
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/<language>', methods=['GET', 'POST'])
 def index():
     error = False
     error_message = ""

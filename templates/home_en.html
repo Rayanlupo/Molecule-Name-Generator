@@ -18,7 +18,16 @@
     <div class="title">
     <h1>Molecule Naming App</h1>
     </div>
-
+    <div class="switch-lang"> 
+      <div class="current-lang"><img class="lang-flag" src="https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png"/>
+        <span class="lang-text">English</span>
+      </div>
+     
+        <div class="selecting-lang" data-lang="fr">
+          <img class="lang-flag" src="https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_France.png"/>
+          <span class="lang-text">Français</span>
+        </div>
+    </div>
     <form method="post">
 
         
@@ -28,7 +37,10 @@
        
         <button type="submit">Submit</button>
     </form>
-
+    {% if error %}
+        <h2 style="color: red">Error</h2>
+        <p style="color: red";>{{error_message}}</p>
+    {% endif %}
 
     {% if name and function %}
     <div class="results">
@@ -37,9 +49,7 @@
         <p><strong>Name:</strong> {{ name }}</p>
         <p><strong>Function:</strong> {{ function }}</p>
     </div>
-    {% elif error %}
-        <h2>Error</h2>
-        <p>{{error_message}}</p>
+    
     {% endif %}
     <!-- From Uiverse.io by Zameerahmad01   Thanks :) -->
 <ul class="example-2">
@@ -90,5 +100,20 @@
   </li>
   
 </ul>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  const languageOptions = document.querySelectorAll('.selecting-lang');
+
+  languageOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const selectedLang = option.getAttribute('data-lang');
+      if (selectedLang) {
+        // Redirect to the corresponding language route
+        window.location.href = `/${selectedLang}/`;
+      }
+    });
+  });
+});
+</script>
 </body>
 </html>

@@ -193,8 +193,9 @@ def get_molecule_name(molecule_formula):
     
 
     return nom, function, error, error_message
-@app.route('/', methods=['GET', 'POST'])
-def index():
+@app.route('/', defaults={'lang': 'en'}, methods=['GET', 'POST'])
+@app.route('/<lang>', methods=['GET', 'POST'])
+def index(lang):
     error = False
     error_message = ""
     name = None
@@ -205,15 +206,24 @@ def index():
     if request.method == 'POST':
         formula = request.form.get('formula')
         name, function, error, error_message = get_molecule_name(formula)
+        if not formula:
+            error = True
+            error_message = "Please enter a valid formula"
+             
         if name and function:
             error = False
         else:
             error = True
             name = ""
             function = None
-            
-        
-    return render_template('home.html', name=name, function=function, error=error, error_message=error_message, formula=formula)
-
+    if lang == 'fr':
+        template = "home_fr.html"  
+    elif lang == "en":
+        template = "home_en.html"
+    else:
+        template = "home_en.html" 
+    
+    return render_template(template, name=name, function=function, error=error, error_message=error_message, formula=formula)
+    
 if __name__ == "__main__":
     app.run(debug=True)

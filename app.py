@@ -193,8 +193,8 @@ def get_molecule_name(molecule_formula):
     
 
     return nom, function, error, error_message
-@app.route('/', defaults={'lang': 'en'}, methods=['GET', 'POST'])
-@app.route('/<lang>', methods=['GET', 'POST'])
+@app.route('/', defaults={'lang': 'en'}, methods=['GET', 'POST'], strict_slashes=False)
+@app.route('/<lang>', methods=['GET', 'POST'], strict_slashes=False )
 def index(lang):
     error = False
     error_message = ""
@@ -216,6 +216,7 @@ def index(lang):
             error = True
             name = ""
             function = None
+    print(lang)
     if lang == 'fr':
         template = "home_fr.html"  
     elif lang == "en":

@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template
 import re
+from deep_translator import GoogleTranslator
+translator = GoogleTranslator(source="fr", target="en")
 
 
 app = Flask(__name__)
@@ -152,7 +154,11 @@ def get_molecule_name(molecule_formula):
         if molecule_formula in liste_d_anions_polyatomiques:
             nom = liste_d_anions_polyatomiques[molecule_formula]
         else: 
-            nom = "Oxyde de " + metal
+            for elem in elements_list:
+                if elements_list[elem] == metal:
+                    x_form = elem
+            prefix_x = prefixes[str(elements_list[elem])]
+            nom = prefix_x+"oxyde de " + metal
     elif formule_general == "MX" or formule_general == "XM":
         function = "Sel Binaire"
         if non_metal[-1] in vowels:
@@ -220,11 +226,30 @@ def index(lang):
     if lang == 'fr':
         template = "home_fr.html"  
     elif lang == "en":
+        if name:
+            print(name)
+            name = translator.translate(str(name))
+        else:
+            print("Name is empty")
+        if function:
+            print(function)
+            function = translator.translate(str(function))
+        else:
+            print("function is empty")
+        if error_message:
+            print(error_message)
+            error_message = translator.translate(str(error_message))
+        else:
+            print("error_message is empty")
         template = "home_en.html"
     else:
+        name = translator.translate(name)
+        function = translator.translate(function)
+        error_message = translator.translate(error_message)
         template = "home_en.html" 
-    
-    return render_template(template, name=name, function=function, error=error, error_message=error_message, formula=formula)
+    print(name)
+    print(function)
+    return render_template(template, name=name.capitalize(), function=function.capitalize(), error=error, error_message=error_message.capitalize(), formula=formula)
     
 if __name__ == "__main__":
     app.run(debug=True)

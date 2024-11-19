@@ -247,9 +247,9 @@ def index(lang):
         function = translator.translate(function)
         error_message = translator.translate(error_message)
         template = "home_en.html" 
-    print(name)
-    print(function)
-    return render_template(template, name=name.capitalize(), function=function.capitalize(), error=error, error_message=error_message.capitalize(), formula=formula)
+    name = name.capitalize()
+    function = function.capitalize()
+    return render_template(template, name=name, function=function, error=error, error_message=error_message, formula=formula)
     
 if __name__ == "__main__":
     app.run(debug=True)

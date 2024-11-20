@@ -243,9 +243,12 @@ def index(lang):
             print("error_message is empty")
         template = "home_en.html"
     else:
-        name = translator.translate(name)
-        function = translator.translate(function)
-        error_message = translator.translate(error_message)
+        if name:
+            name = translator.translate(name)
+        if function:
+            function = translator.translate(function)
+        if error_message:
+            error_message = translator.translate(error_message)
         template = "home_en.html" 
     if name:
         name = name.capitalize()

@@ -247,8 +247,10 @@ def index(lang):
         function = translator.translate(function)
         error_message = translator.translate(error_message)
         template = "home_en.html" 
-    name = name.capitalize()
-    function = function.capitalize()
+    if name:
+        name = name.capitalize()
+    if function:
+        function = function.capitalize()
     return render_template(template, name=name, function=function, error=error, error_message=error_message, formula=formula)
     
 if __name__ == "__main__":
